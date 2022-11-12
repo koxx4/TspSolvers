@@ -1,9 +1,0 @@
-﻿{
-  "$schema": "http://json.schemastore.org/launchsettings.json",
-  "profiles": {
-    "TspBnbSolver": {
-      "commandName": "Project",
-      "workingDirectory": "C:\\Users\\Peter\\Documents\\Studies5\\PEA\\P\\TSP Solvers\\TspBnbSolver"
-    }
-  }
-}

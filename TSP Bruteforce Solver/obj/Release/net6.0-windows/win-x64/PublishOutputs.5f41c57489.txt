@@ -1,3 +1,0 @@
-C:\Users\Peter\Documents\Studies5\PEA\P\TSP Solvers\TSP Bruteforce Solver\TSP Solvers\bin\Release\net6.0-windows\publish\win-x64\TSP Bruteforce Solver.pdb
-C:\Users\Peter\Documents\Studies5\PEA\P\TSP Solvers\TSP Bruteforce Solver\TSP Solvers\bin\Release\net6.0-windows\publish\win-x64\TSP Bruteforce Solver.dll.config
-C:\Users\Peter\Documents\Studies5\PEA\P\TSP Solvers\TSP Bruteforce Solver\TSP Solvers\bin\Release\net6.0-windows\publish\win-x64\TSP Bruteforce Solver.exe
