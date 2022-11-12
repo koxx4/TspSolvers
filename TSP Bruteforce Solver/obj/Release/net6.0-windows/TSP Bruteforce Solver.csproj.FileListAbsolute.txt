@@ -1,0 +1,18 @@
+C:\Users\Peter\Documents\Studies5\PEA\P\TSP Solvers\TSP Bruteforce Solver\TSP Solvers\bin\Release\net6.0-windows\TSP Bruteforce Solver.exe
+C:\Users\Peter\Documents\Studies5\PEA\P\TSP Solvers\TSP Bruteforce Solver\TSP Solvers\bin\Release\net6.0-windows\TSP Bruteforce Solver.deps.json
+C:\Users\Peter\Documents\Studies5\PEA\P\TSP Solvers\TSP Bruteforce Solver\TSP Solvers\bin\Release\net6.0-windows\TSP Bruteforce Solver.runtimeconfig.json
+C:\Users\Peter\Documents\Studies5\PEA\P\TSP Solvers\TSP Bruteforce Solver\TSP Solvers\bin\Release\net6.0-windows\TSP Bruteforce Solver.dll
+C:\Users\Peter\Documents\Studies5\PEA\P\TSP Solvers\TSP Bruteforce Solver\TSP Solvers\bin\Release\net6.0-windows\TSP Bruteforce Solver.pdb
+C:\Users\Peter\Documents\Studies5\PEA\P\TSP Solvers\TSP Bruteforce Solver\TSP Solvers\bin\Release\net6.0-windows\KaosCombinatorics.dll
+C:\Users\Peter\Documents\Studies5\PEA\P\TSP Solvers\TSP Bruteforce Solver\TSP Solvers\obj\Release\net6.0-windows\TSP Bruteforce Solver.csproj.AssemblyReference.cache
+C:\Users\Peter\Documents\Studies5\PEA\P\TSP Solvers\TSP Bruteforce Solver\TSP Solvers\obj\Release\net6.0-windows\TSP Bruteforce Solver.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Peter\Documents\Studies5\PEA\P\TSP Solvers\TSP Bruteforce Solver\TSP Solvers\obj\Release\net6.0-windows\TSP Bruteforce Solver.AssemblyInfoInputs.cache
+C:\Users\Peter\Documents\Studies5\PEA\P\TSP Solvers\TSP Bruteforce Solver\TSP Solvers\obj\Release\net6.0-windows\TSP Bruteforce Solver.AssemblyInfo.cs
+C:\Users\Peter\Documents\Studies5\PEA\P\TSP Solvers\TSP Bruteforce Solver\TSP Solvers\obj\Release\net6.0-windows\TSP Bruteforce Solver.csproj.CoreCompileInputs.cache
+C:\Users\Peter\Documents\Studies5\PEA\P\TSP Solvers\TSP Bruteforce Solver\TSP Solvers\obj\Release\net6.0-windows\TSP Bruteforce Solver.csproj.CopyComplete
+C:\Users\Peter\Documents\Studies5\PEA\P\TSP Solvers\TSP Bruteforce Solver\TSP Solvers\obj\Release\net6.0-windows\TSP Bruteforce Solver.dll
+C:\Users\Peter\Documents\Studies5\PEA\P\TSP Solvers\TSP Bruteforce Solver\TSP Solvers\obj\Release\net6.0-windows\refint\TSP Bruteforce Solver.dll
+C:\Users\Peter\Documents\Studies5\PEA\P\TSP Solvers\TSP Bruteforce Solver\TSP Solvers\obj\Release\net6.0-windows\TSP Bruteforce Solver.pdb
+C:\Users\Peter\Documents\Studies5\PEA\P\TSP Solvers\TSP Bruteforce Solver\TSP Solvers\obj\Release\net6.0-windows\TSP Bruteforce Solver.genruntimeconfig.cache
+C:\Users\Peter\Documents\Studies5\PEA\P\TSP Solvers\TSP Bruteforce Solver\TSP Solvers\obj\Release\net6.0-windows\ref\TSP Bruteforce Solver.dll
+C:\Users\Peter\Documents\Studies5\PEA\P\TSP Solvers\TSP Bruteforce Solver\TSP Solvers\bin\Release\net6.0-windows\TSP Bruteforce Solver.dll.config
