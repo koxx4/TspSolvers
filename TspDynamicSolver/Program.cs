@@ -38,6 +38,7 @@ internal static class Program
             Console.Write(matrixData.ToString());
             
             List<TspSolution> solutions = new List<TspSolution>();
+            bool shouldSaveResult = true;
                 
             for (int i = 0; i < configurationLine.AlgorithmPassCount; i++)
             {
@@ -55,15 +56,17 @@ internal static class Program
                 }
                 catch (Exception e)
                 {
-                    Console.WriteLine("Błąd podczas rozwiazywania!: " + e.Message);
+                    Console.WriteLine("Błąd podczas rozwiazywania!: " + e.StackTrace);
+                    shouldSaveResult = false;
                 }
             }
                 
-            TspSolutionToFileExporter.WriteToFullCv(
-                $"Solutions/{configurationLine.FileName.Replace(".txt", "").Replace(".tsp", "")}_result.csv",
-                configurationLine.FileName,
-                solutions[0],
-                solutions.Select(solution => solution.ExecutionTime.TotalMilliseconds).ToList());
+            if(shouldSaveResult)
+                TspSolutionToFileExporter.WriteToFullCv(
+                    $"Solutions/{configurationLine.FileName.Replace(".txt", "").Replace(".tsp", "")}_result.csv",
+                    configurationLine.FileName,
+                    solutions[0],
+                    solutions.Select(solution => solution.ExecutionTime.TotalMilliseconds).ToList());
         }
 
         return 0;
