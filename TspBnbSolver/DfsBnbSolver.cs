@@ -26,7 +26,7 @@ public class DfsBnbSolver
         var sortedWeights = matrixData.GetSortedWeights().ToArray();
 
         //Policz zsumowane koszty z posortowanych wag
-        _accumulatedWeightsCosts = new int[_verticesCount - 1];
+        _accumulatedWeightsCosts = new int[_verticesCount];
         _accumulatedWeightsCosts[0] = sortedWeights[0];
 
         for (int i = 1; i < _accumulatedWeightsCosts.Length; i++)
@@ -77,11 +77,12 @@ public class DfsBnbSolver
         {
             int jumpCost = _matrix[nextVertex, currentPath[currentLevel - 1]];
             
+            int maxBound = _accumulatedWeightsCosts[_verticesCount - 1 - visitedVertices.Count];
             //Przechodzimy na kolejny węzeł jesli nie jest samym soba albo juz w nim nie bylismy,
             //albo wiemy ze bedzie jeszcze krotszy od najkrotszego znanego
-            if (IsInvalidEdge(jumpCost) || visitedVertices.Contains(nextVertex) || currentCost + jumpCost >= _bestKnownCost)
+            if (IsInvalidEdge(jumpCost) || visitedVertices.Contains(nextVertex) || currentCost + jumpCost + maxBound >= _bestKnownCost)
                 continue;
-            
+
             currentPath[currentLevel] = nextVertex;
             visitedVertices.Add(nextVertex);
             
@@ -101,34 +102,5 @@ public class DfsBnbSolver
     private bool IsInvalidEdge(int weight)
     {
         return weight <= 0;
-    }
-    
-    private bool NextPermutation(ref int[] a)
-    {
-        if (a.Length < 2) return false;
-        var k = a.Length - 2;
-
-        while (k >= 0 && a[k].CompareTo( a[k+1]) >=0) k--;
-        if( k < 0 )return false;
-
-        var l = a.Length - 1;
-        while (l > k && a[l].CompareTo(a[k]) <= 0) l--;
-
-        var tmp = a[k];
-        a[k] = a[l];
-        a[l] = tmp;
-
-        var i = k + 1;
-        var j = a.Length - 1;
-        while(i < j)
-        {
-            tmp = a[i];
-            a[i] = a[j];
-            a[j] = tmp;
-            i++;
-            j--;
-        }
-
-        return true;
     }
 }
