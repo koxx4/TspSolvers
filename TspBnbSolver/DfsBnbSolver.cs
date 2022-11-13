@@ -80,7 +80,7 @@ public class DfsBnbSolver
             //Obliczanie gornej granicy. Suma posortowanych krawedzi w grafie rosnaco.
             //Suma jest z tylu krawedzi ile brakuje jeszcze do ukonczenia obecnie rozpatrywanej sciezki
             int maxBound = _accumulatedWeightsCosts[_verticesCount - 1 - visitedVertices.Count];
-            
+
             //Przechodzimy na kolejny węzeł jesli nie jest samym soba albo juz w nim nie bylismy,
             //albo wiemy ze bedzie jeszcze krotszy od najkrotszego znanego
             if (IsInvalidEdge(jumpCost) || visitedVertices.Contains(nextVertex) || currentCost + jumpCost + maxBound >= _bestKnownCost)
