@@ -1,5 +1,4 @@
 ﻿using System.Diagnostics;
-using Kaos.Combinatorics;
 using TspUtils;
 
 namespace TspBnbSolver;
@@ -9,17 +8,15 @@ public static class BnbSolver
     public static TspSolution SolveUsingDfs(MatrixData matrixData, int startingVertex)
     {
         Stopwatch stopwatch = new Stopwatch();
-
-        //long memoryBefore = Process.GetCurrentProcess().WorkingSet64;
+        
         stopwatch.Start();
-        TspSolution tspSolution = DoSolveUsingDfs(matrixData, startingVertex);
+        var result = DoSolveUsingDfs(matrixData, startingVertex);
         stopwatch.Stop();
-       // long memoryAfter = Process.GetCurrentProcess().WorkingSet64;
 
-        return new TspSolution(tspSolution.MinPathWeight, tspSolution.MinPath, stopwatch.Elapsed, 0);
+        return new TspSolution(result.weight, result.bestPath, stopwatch.Elapsed, result.memoryUsed);
     }
     
-    private static TspSolution DoSolveUsingDfs(MatrixData matrixData, int startingVertex)
+    private static (int weight, List<int> bestPath, long memoryUsed) DoSolveUsingDfs(MatrixData matrixData, int startingVertex)
     {
         int numberOfVertices = matrixData.NumberOfVertices;
         int[,] adjacencyMatrix = matrixData.AdjacencyMatrixArray;
@@ -30,15 +27,21 @@ public static class BnbSolver
             .ToArray();
 
         //Wygeneruj posortowane krawedzie wedlug kosztow od min do max
-        List<Edge> sortedEdges = matrixData.GetSortedEdges();
+        var sortedWeights = matrixData.GetSortedWeights().ToArray();
 
-        //Przygotuj generowanie permutacji
-        //Permutation permutation = new Permutation(verticesToVisit.Length);
+        //Policz zsumowane koszty z posortowanych wag
+        var accumulatedCosts = new int[numberOfVertices - 1];
+        accumulatedCosts[0] = sortedWeights[0];
+        
+        for (int i = 1; i < accumulatedCosts.Length; i++)
+        {
+            accumulatedCosts[i] = accumulatedCosts[i - 1] + sortedWeights[i];
+        }
 
         //Przygotuj obecnie najlepsza sciezke i jej koszt
         int bestMinimalPathWeight = int.MaxValue;
-        IEnumerable<int> bestPath = null;
-
+        int[] bestPath = new int[verticesToVisit.Length];
+        
         //Iteruj przez kazda mozliwa permutacje
         do
         {
@@ -46,9 +49,6 @@ public static class BnbSolver
             int currentPathWeight = 0;
             //Czy obecna ścieżka jest lepsza od najlepszej znanej
             bool currentPathIsBetter = true;
-
-            //Lista odwiedzonych krawedzi do generowania maxBound
-            //List<Edge> visitedEdges = new(verticesToVisit.Length);
 
             //Podazaj ta sciezka i licz jej koszt
             //Sprawdzaj na biezaco czy nie jest juz ona gorsza od obecnie najlepszej znanej
@@ -73,31 +73,51 @@ public static class BnbSolver
                 currentPathWeight += adjacencyMatrix[nextNode, currentNode];
 
                 //Obliczenie obecnej górnej granicy
-                int verticesLeft = (verticesToVisit.Length - 2) - i;
-                int maxBound = 0;
+                int weightsToAddCount = 0;
 
-                for (int j = 0; j < verticesLeft; j++)
-                    maxBound += sortedEdges[j].Weight;
+                if (i != verticesToVisit.Length - 2)
+                {
+                    weightsToAddCount = verticesToVisit.Length - 2 - i;
+                }
 
-                if (currentPathWeight + maxBound >= bestMinimalPathWeight)
+                int maxBound = accumulatedCosts[weightsToAddCount];
+
+                if (currentPathWeight + maxBound > bestMinimalPathWeight)
                 {
                     currentPathIsBetter = false;
                     break;
                 }
-
-                //visitedEdges.Add(new Edge() {From = i, To = i + 1, Weight = currentPathWeight});
             }
 
             if (currentPathIsBetter)
             {
-                //Console.WriteLine($"FOUND SHORTER PATH: {bestMinimalPathWeight}->{currentPathWeight}");
                 bestMinimalPathWeight = currentPathWeight;
-                bestPath = verticesToVisit;
+                
+                for (int i = 0; i < verticesToVisit.Length; i++)
+                    bestPath[i] = verticesToVisit[i];
             }
 
         } while (NextPermutation(ref verticesToVisit));
-
-        return new TspSolution(bestMinimalPathWeight, bestPath.Prepend(startingVertex).Append(startingVertex).ToList());
+        
+        long bytesUsed = 0;
+        
+        try
+        {
+            bytesUsed = Buffer.ByteLength(adjacencyMatrix)
+                        + Buffer.ByteLength(verticesToVisit)
+                        + Buffer.ByteLength(sortedWeights)
+                        + Buffer.ByteLength(accumulatedCosts)
+                        + Buffer.ByteLength(bestPath);
+        }
+        catch (Exception e)
+        {
+            bytesUsed = 0;
+        }
+        
+        return new ValueTuple<int, List<int>, long>(
+            bestMinimalPathWeight,
+            bestPath.Prepend(startingVertex).Append(startingVertex).ToList(),
+            bytesUsed);
     }
 
     public static TspSolution SolveUsingBfs(MatrixData matrixData)
@@ -109,44 +129,6 @@ public static class BnbSolver
     {
         throw new NotImplementedException();
     }
-    
-    // private static bool NextPermutation(ref int[] array) {
-    //     // Find longest non-increasing suffix
-    //     int i = array.Length - 1;
-    //     while (i > 0 && array[i - 1] >= array[i])
-    //         i--;
-    //     // Now i is the head index of the suffix
-    //
-    //     // Are we at the last permutation already?
-    //     if (i <= 0)
-    //         return false;
-    //
-    //     // Let array[i - 1] be the pivot
-    //     // Find rightmost element greater than the pivot
-    //     int j = array.Length - 1;
-    //     while (array[j] <= array[i - 1])
-    //         j--;
-    //     // Now the value array[j] will become the new pivot
-    //     // Assertion: j >= i
-    //
-    //     // Swap the pivot with j
-    //     int temp = array[i - 1];
-    //     array[i - 1] = array[j];
-    //     array[j] = temp;
-    //
-    //     // Reverse the suffix
-    //     j = array.Length - 1;
-    //     while (i < j) {
-    //         temp = array[i];
-    //         array[i] = array[j];
-    //         array[j] = temp;
-    //         i++;
-    //         j--;
-    //     }
-    //
-    //     // Successfully computed the next permutation
-    //     return true;
-    // }
     
     static bool NextPermutation(ref int[] a)
     {

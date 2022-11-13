@@ -1,4 +1,6 @@
-﻿using System.Text;
+﻿using System.Collections;
+using System.ComponentModel;
+using System.Text;
 
 namespace TspUtils
 {
@@ -26,49 +28,23 @@ namespace TspUtils
             this.AdjacencyMatrix = adjacencyMatrix;
             this.AdjacencyMatrixArray = ToAdjacencyMatrixArray(adjacencyMatrix);
         }
-
-        public List<int> GetSortedPathWeights()
+        
+        public List<int> GetSortedWeights()
         {
-            List<int> weights = new(NumberOfVertices * NumberOfVertices - NumberOfVertices);
-            
+            List<int> weights = new();
+
             for (int i = 0; i < NumberOfVertices; i++)
             {
                 for (int j = 0; j < NumberOfVertices; j++)
                 {
-                    if (i == j)
+                    if (i != j)
                     {
-                        continue;
+                        weights.Add(AdjacencyMatrixArray[i, j]);
                     }
-                    
-                    weights.Add(AdjacencyMatrixArray[i, j]);
                 }
             }
             
             weights.Sort();
-
-            return weights;
-        }
-        
-        public List<Edge> GetSortedEdges()
-        {
-            List<Edge> weights = new(NumberOfVertices * NumberOfVertices - NumberOfVertices);
-            
-            for (int i = 0; i < NumberOfVertices; i++)
-            {
-                for (int j = 0; j < NumberOfVertices; j++)
-                {
-                    if (i == j)
-                    {
-                        continue;
-                    }
-
-                    int weight = AdjacencyMatrixArray[i, j];
-                    
-                    weights.Add(new Edge() {From = j, To = i, Weight = weight});
-                }
-            }
-            
-            weights.Sort((edge1, edge2) => edge1.Weight - edge2.Weight );
 
             return weights;
         }

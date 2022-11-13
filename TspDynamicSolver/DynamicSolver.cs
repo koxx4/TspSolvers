@@ -2,25 +2,25 @@
 using System.Runtime.InteropServices;
 using TspUtils;
 
-namespace TspBnbSolver;
+namespace TspDynamicSolver;
 
 public class DynamicSolver
 {
     private readonly int[,] _matrix;
     private readonly int _numberOfVertices;
-    private readonly int[,] _memo;
+    private readonly ulong[,] _memo;
 
     public DynamicSolver(MatrixData matrixData)
     {
-        _numberOfVertices = (int) matrixData.NumberOfVertices;
+        _numberOfVertices = matrixData.NumberOfVertices;
         _matrix = matrixData.AdjacencyMatrixArray;
-        _memo = new int[ _numberOfVertices, 1 << _numberOfVertices];
+        _memo = new ulong[ _numberOfVertices, 1 << _numberOfVertices];
 
         for (int i = 0; i < _memo.GetLength(0); i++)
         {
             for (int j = 0; j < _memo.GetLength(1); j++)
             {
-                _memo[i, j] = int.MaxValue;
+                _memo[i, j] = ulong.MaxValue;
             }
         }
     }
@@ -52,7 +52,7 @@ public class DynamicSolver
             if (i == startingVertex)
                 continue;
 
-            _memo[i, 1 << startingVertex | 1 << i] = _matrix[i, startingVertex];
+            _memo[i, 1 << startingVertex | 1 << i] = (ulong) _matrix[i, startingVertex];
         }
     }
 
@@ -63,30 +63,30 @@ public class DynamicSolver
             foreach (var combination in BitsCombinations(i, _numberOfVertices))
             {
 
-                if (IsVertexNotInSubset(startingNode, combination))
+                if (IsVertexNotInSubset((ulong) startingNode, combination))
                     continue;
 
                 for (int nextNode = 0; nextNode < _numberOfVertices; nextNode++)
                 {
 
-                    if (nextNode == startingNode || IsVertexNotInSubset(nextNode, combination))
+                    if (nextNode == startingNode || IsVertexNotInSubset((ulong) nextNode, combination))
                         continue;
 
-                    long state = combination ^ (1 << nextNode);
+                    ulong state = combination ^ (1ul << nextNode);
                     int minDistance = int.MaxValue;
 
-                    for (int endNode = 0; endNode < _numberOfVertices; endNode++)
+                    for (long endNode = 0; endNode < _numberOfVertices; endNode++)
                     {
                         
-                        if (endNode == startingNode || endNode == nextNode || IsVertexNotInSubset(endNode, combination))
+                        if (endNode == startingNode || endNode == nextNode || IsVertexNotInSubset((ulong) endNode, combination))
                             continue;
 
-                        int newDistance = _memo[endNode, state] + _matrix[endNode, nextNode];
+                        int newDistance = (int) _memo[(ulong) endNode, state] + _matrix[endNode, nextNode];
 
                         if (newDistance < minDistance)
                             minDistance = newDistance;
                     }
-                    _memo[nextNode, combination] = minDistance;
+                    _memo[nextNode, combination] = (ulong) minDistance;
                 }
                 
             }
@@ -104,7 +104,7 @@ public class DynamicSolver
             if (i == startingNode)
                 continue;
 
-            int tourCost = _memo[i, finalState] + _matrix[startingNode, i];
+            int tourCost = (int) _memo[i, finalState] + _matrix[startingNode, i];
 
             if (tourCost < minTourCost)
             {
@@ -127,14 +127,14 @@ public class DynamicSolver
             int index = -1;
             for (int j = 0; j < _numberOfVertices; j++)
             {
-                if (j == startingNode || IsVertexNotInSubset(j ,state))
+                if (j == startingNode || IsVertexNotInSubset((ulong) j ,(ulong) state))
                     continue;
 
                 if (index == -1)
                     index = j;
 
-                int previousDistance = _memo[index, state] + _matrix[index, lastIndex];
-                int newDistance = _memo[j, state] + _matrix[j, lastIndex];
+                int previousDistance = (int) _memo[index, state] + _matrix[index, lastIndex];
+                int newDistance = (int) _memo[j, state] + _matrix[j, lastIndex];
 
                 if (newDistance < previousDistance)
                     index = j;
@@ -149,14 +149,14 @@ public class DynamicSolver
         return tour;
     }
 
-    private bool IsVertexNotInSubset(int vertex, int subset)
+    private bool IsVertexNotInSubset(ulong vertex, ulong subset)
     {
-        return ((1 << vertex) & subset) == 0;
+        return ((1ul << (int) vertex) & subset) == 0;
     }
 
-    private IEnumerable<int> BitsCombinations(int bitsSetToOneCount, int wordLength)
+    private IEnumerable<ulong> BitsCombinations(int bitsSetToOneCount, int wordLength)
     {
-        List<int> subsets = new(wordLength);
+        List<ulong> subsets = new(wordLength);
 
         foreach (var combination in BitsCombinations(0, 0, bitsSetToOneCount, wordLength, subsets))
         {
@@ -164,7 +164,7 @@ public class DynamicSolver
         }
     }
 
-    private IEnumerable<int> BitsCombinations(int set, int at, int bitsSetToOneCount, int wordLength, List<int> subsets)
+    private IEnumerable<ulong> BitsCombinations(ulong set, int at, int bitsSetToOneCount, int wordLength, List<ulong> subsets)
     {
         if (bitsSetToOneCount == 0)
         {
@@ -174,14 +174,14 @@ public class DynamicSolver
         {
             for (int i = at; i < wordLength; i++)
             {
-                set |= (1 << i);
+                set |= (ulong) (1 << i);
 
                 foreach (var combination in BitsCombinations(set, i + 1, bitsSetToOneCount - 1, wordLength, subsets))
                 {
                     yield return combination;
                 }
                 
-                set &= ~(1 << i);
+                set &= (ulong)  ~(1 << i);
             }
         }
     }

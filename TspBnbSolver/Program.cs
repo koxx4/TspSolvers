@@ -20,9 +20,7 @@ namespace TspBnbSolver
                 .LoadFromFile("Data/settings.ini");
 
             if (configurationData == null)
-            {
                 return 1;
-            }
 
             foreach (ConfigurationLine configurationLine in configurationData.ConfigurationLines)
             {
@@ -30,33 +28,38 @@ namespace TspBnbSolver
                     .DispatcherLoader($"Data/{configurationLine.FileName}");
 
                 if (matrixData == null)
-                {
                     continue;
-                }
 
                 Console.WriteLine($"Solving {configurationLine.FileName}");
                 Console.Write(matrixData.ToString());
                 
-                TspSolution? oneSolution = null;
+                List<TspSolution> solutions = new List<TspSolution>();
                 
                 for (int i = 0; i < configurationLine.AlgorithmPassCount; i++)
                 {
                     try
                     {
-                        oneSolution = BnbSolver.SolveUsingDfs(matrixData, 0);
-                    //oneSolution = new DynamicSolver(matrixData).Solve(0);
+                        var solution = BnbSolver.SolveUsingDfs(matrixData, 0);
+                        
+                        solutions.Add(solution);
 
-                    Console.WriteLine($"E: {configurationLine.OptimalWeight} " +
-                                      $"W: {oneSolution.MinPathWeight}, " +
-                                      $"P: {string.Join("->", oneSolution.MinPath)}, " +
-                                      $"T: {oneSolution.ExecutionTime.TotalMilliseconds} ms, " +
-                                      $"M: {oneSolution.BytesUsed}B");
+                        Console.WriteLine($"E: {configurationLine.OptimalWeight} " +
+                                          $"W: {solution.MinPathWeight}, " +
+                                          $"P: {string.Join("->", solution.MinPath)}, " +
+                                          $"T: {solution.ExecutionTime.TotalMilliseconds} ms, " +
+                                          $"M: {solution.BytesUsed}B");
                     }
                     catch (Exception e)
                     {
-                        Console.WriteLine("Błąd podczas rozwiazywania!!!\n" + e.Message);
+                        Console.WriteLine("Błąd podczas rozwiazywania!: " + e.Message);
                     }
                 }
+                
+                TspSolutionToFileExporter.WriteToFullCv(
+                    $"Solutions/{configurationLine.FileName.Replace(".txt", "").Replace(".tsp", "")}_result.csv",
+                    configurationLine.FileName,
+                    solutions[0],
+                    solutions.Select(solution => solution.ExecutionTime.TotalMilliseconds).ToList());
             }
 
             return 0;

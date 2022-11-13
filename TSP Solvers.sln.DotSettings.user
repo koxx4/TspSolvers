@@ -3,4 +3,5 @@
   &lt;Assembly Path="C:\Users\Peter\.nuget\packages\mathnet.numerics\5.0.0\lib\net6.0\MathNet.Numerics.dll" /&gt;&#xD;
   &lt;Assembly Path="C:\Users\Peter\.nuget\packages\kaos.combinatorics\5.0.0\lib\netstandard1.0\KaosCombinatorics.dll" /&gt;&#xD;
 &lt;/AssemblyExplorer&gt;</s:String>
+	<s:Boolean x:Key="/Default/UnloadedProject/UnloadedProjects/=eda0fa50_002D9331_002D42be_002Db1fa_002Da5991be32d3a_0023TspUtils/@EntryIndexedValue">True</s:Boolean>
 	</wpf:ResourceDictionary>

@@ -12,10 +12,6 @@
     </ItemGroup>
 
     <ItemGroup>
-      <PackageReference Include="Kaos.Combinatorics" Version="5.0.0" />
-    </ItemGroup>
-
-    <ItemGroup>
       <Folder Include="Solutions" />
     </ItemGroup>
 

@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TspBnbSolver", "TspBnbSolve
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TspUtils", "TspUtils\TspUtils.csproj", "{EDA0FA50-9331-42BE-B1FA-A5991BE32D3A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TspDynamicSolver", "TspDynamicSolver\TspDynamicSolver.csproj", "{83748030-0A87-4555-9DC2-BC6FE2FC2AFA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{EDA0FA50-9331-42BE-B1FA-A5991BE32D3A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EDA0FA50-9331-42BE-B1FA-A5991BE32D3A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EDA0FA50-9331-42BE-B1FA-A5991BE32D3A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{83748030-0A87-4555-9DC2-BC6FE2FC2AFA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{83748030-0A87-4555-9DC2-BC6FE2FC2AFA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{83748030-0A87-4555-9DC2-BC6FE2FC2AFA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{83748030-0A87-4555-9DC2-BC6FE2FC2AFA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
