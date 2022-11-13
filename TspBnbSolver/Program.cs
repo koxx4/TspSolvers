@@ -24,13 +24,14 @@ namespace TspBnbSolver
 
             foreach (ConfigurationLine configurationLine in configurationData.ConfigurationLines)
             {
+                Console.WriteLine($"Solving {configurationLine.FileName}");
+                
                 MatrixData? matrixData = MatrixDataLoader
                     .DispatcherLoader($"Data/{configurationLine.FileName}");
 
                 if (matrixData == null)
                     continue;
 
-                Console.WriteLine($"Solving {configurationLine.FileName}");
                 Console.Write(matrixData.ToString());
                 
                 List<TspSolution> solutions = new List<TspSolution>();
@@ -39,7 +40,7 @@ namespace TspBnbSolver
                 {
                     try
                     {
-                        var solution = BnbSolver.SolveUsingDfs(matrixData, 0);
+                        var solution = new DfsBnbSolver(matrixData).Solve(0);
                         
                         solutions.Add(solution);
 
