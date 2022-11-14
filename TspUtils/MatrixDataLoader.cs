@@ -23,7 +23,8 @@ namespace TspUtils
         private static readonly string[] _validEdgeWeightFormats = new[] {
                 "FULL_MATRIX",
                 "LOWER_DIAG_ROW",
-                "UPPER_DIAG_ROW"
+                //"UPPER_DIAG_ROW",
+                "UPPER_ROW"
             };
 
         private static readonly Regex sWhitespace = new(@"\s+");
@@ -70,7 +71,8 @@ namespace TspUtils
                 {
                     "FULL_MATRIX" => ParseFullMatrix(edgeWeightSectionDataLines, numberOfVertices),
                     "LOWER_DIAG_ROW" => ParseLowerDiagRow(edgeWeightSectionDataLines, numberOfVertices),
-                    "UPPER_DIAG_ROW" => ParseUpperDiagRow(edgeWeightSectionDataLines, numberOfVertices),
+                    "UPPER_DIAG_ROW" => ParseUpperRow(edgeWeightSectionDataLines, numberOfVertices),
+                    "UPPER_ROW" => ParseUpperRow(edgeWeightSectionDataLines, numberOfVertices),
                     _ => new List<List<int>> { new() }
                 };
 
@@ -197,10 +199,11 @@ namespace TspUtils
 
         private static List<List<int>> ParseLowerDiagRow(string[] fileLines, int numberOfVertices)
         {
-            int line = 1;
+            int line = 0;
 
             int[,] list = new int[numberOfVertices, numberOfVertices];
 
+            int value_iterator = 0;
             int[] values = fileLines
                 .Select(fileLine => fileLine
                     .Trim()
@@ -212,25 +215,30 @@ namespace TspUtils
 
             for (int i = 0; i < numberOfVertices; i++)
             {
-                for (int j = 0; j < line; j++)
+                for (int j = 0; j <= line; j++)
                 {
-                    list[i, j] = values[j];
-                    if (i != j)
-                        list[j, i] = list[i, j];
+                    list[i, j] = values[value_iterator];
+                    value_iterator++;
                 }
-                if (line < numberOfVertices)
-                    line++;
+
+                for (int j = line + 1; j < numberOfVertices; j++)
+                {
+                    list[line, j] = -1;
+                }
+                
+                line++;
             }
 
             return To2DList(list);
         }
 
-        private static List<List<int>> ParseUpperDiagRow(string[] fileLines, int numberOfVertices)
+        private static List<List<int>> ParseUpperRow(string[] fileLines, int numberOfVertices)
         {
-            int line = numberOfVertices - 1;
+            int line = numberOfVertices - 2;
 
             int[,] list = new int[numberOfVertices, numberOfVertices];
-
+            
+            int value_iterator = 0;
             int[] values = fileLines
                 .Select(fileLine => fileLine
                     .Trim()
@@ -240,16 +248,20 @@ namespace TspUtils
                     .ToArray()
                 ).SelectMany(x => x).ToArray();
 
-            for (int i = numberOfVertices - 1; i >= 0; i--)
+            for (int i = 0; i < numberOfVertices; i++)
             {
-                for (int j = line; j >= 0; j--)
+                for (int j = 0; j <= line; j++)
                 {
-                    list[i, j] = values[line - j];
-                    if (i != j)
-                        list[j, i] = list[i, j];
+                    list[i, j] = values[value_iterator];
+                    value_iterator++;
                 }
-                if (line >= 0)
-                    line--;
+                
+                for (int j = numberOfVertices - 1; j > line; j--)
+                {
+                    list[i, j] = -1;
+                }
+                
+                line--;
             }
 
             return To2DList(list);

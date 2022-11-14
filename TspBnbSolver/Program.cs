@@ -21,7 +21,7 @@ namespace TspBnbSolver
 
             if (configurationData == null)
                 return 1;
-
+            
             foreach (ConfigurationLine configurationLine in configurationData.ConfigurationLines)
             {
                 Console.WriteLine($"Solving {configurationLine.FileName}");
@@ -35,6 +35,7 @@ namespace TspBnbSolver
                 Console.Write(matrixData.ToString());
                 
                 List<TspSolution> solutions = new List<TspSolution>();
+                bool shouldSaveResult = true;
                 
                 for (int i = 0; i < configurationLine.AlgorithmPassCount; i++)
                 {
@@ -55,14 +56,27 @@ namespace TspBnbSolver
                         Console.WriteLine("Błąd podczas rozwiazywania!: " + e.Message);
                     }
                 }
-                
-                TspSolutionToFileExporter.WriteToFullCv(
-                    $"Solutions/{configurationLine.FileName.Replace(".txt", "").Replace(".tsp", "")}_result.csv",
-                    configurationLine.FileName,
-                    solutions[0],
-                    solutions.Select(solution => solution.ExecutionTime.TotalMilliseconds).ToList());
-            }
 
+                if (shouldSaveResult)
+                {
+                    var times = solutions.Select(solution => solution.ExecutionTime.TotalMilliseconds).ToList();
+                    
+                    TspSolutionToFileExporter.WriteToFullCv(
+                        $"Solutions/{configurationLine.FileName.Replace(".txt", "").Replace(".tsp", "")}_result.csv",
+                        configurationLine.FileName,
+                        solutions[0],
+                        times);
+
+                    int average = (int) Math.Round(times.Average(), 0, MidpointRounding.AwayFromZero);
+
+                    List<List<int>> result = new (1);
+                    result.Add(new List<int>() {matrixData.NumberOfVertices, average});
+                    
+                    TspSolutionToFileExporter.WriteToScientificGraphCv("Solutions/solutions_data.csv", result);
+                }
+
+            }
+            
             return 0;
         }
     }

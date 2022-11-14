@@ -23,14 +23,15 @@ public static class TspSolutionToFileExporter
     
     public static void WriteToScientificGraphCv(string filename, List<List<int>> results)
     {
-        FileStream file = File.Create(filename);
+        FileStream file = new FileStream(filename, FileMode.Append);
         TextWriter textWriter = new StreamWriter(file);
-        
-        textWriter.Write("vertices,time\n");
 
+        if (new FileInfo(filename).Length == 0)
+            textWriter.Write("vertices,time\n");
+        
         foreach (var result in results)
         {
-            textWriter.WriteLine($"${result[0]},{result[1]}");
+            textWriter.WriteLine($"{result[0]},{result[1]}");
         }
 
         textWriter.Flush();

@@ -42,7 +42,7 @@ public class DfsBnbSolver
 
         _stopwatch.Reset();
         _stopwatch.Start();
-        GoNextTreeLevel(currentCost: 0, currentLevel: 1, currentPath, new HashSet<int>(new []{0} ));
+        GoNextTreeLevel(startingVertex, currentCost: 0, currentLevel: 1, currentPath, new HashSet<int>(new []{0} ));
         _stopwatch.Stop();
 
         return new TspSolution(_bestKnownCost, _bestKnownPath.ToList(), _stopwatch.Elapsed, 
@@ -52,7 +52,7 @@ public class DfsBnbSolver
             + Buffer.ByteLength(currentPath) );
     }
 
-    private void GoNextTreeLevel(int currentCost, int currentLevel, int[] currentPath, HashSet<int> visitedVertices)
+    private void GoNextTreeLevel(int startingVertex, int currentCost, int currentLevel, int[] currentPath, HashSet<int> visitedVertices)
     {
         //Ostatni poziom drzewa
         if (currentLevel ==  _verticesCount)
@@ -81,15 +81,15 @@ public class DfsBnbSolver
             //Suma jest z tylu krawedzi ile brakuje jeszcze do ukonczenia obecnie rozpatrywanej sciezki
             int maxBound = _accumulatedWeightsCosts[_verticesCount - 1 - visitedVertices.Count];
 
-            //Przechodzimy na kolejny węzeł jesli nie jest samym soba albo juz w nim nie bylismy,
+            //Przechodzimy na kolejny węzeł jesli nie jest samym soba, albo nie ma przejscia, albo juz w nim nie bylismy,
             //albo wiemy ze bedzie jeszcze krotszy od najkrotszego znanego
-            if (IsInvalidEdge(jumpCost) || visitedVertices.Contains(nextVertex) || currentCost + jumpCost + maxBound >= _bestKnownCost)
+            if (IsInvalidEdge(jumpCost) || visitedVertices.Contains(nextVertex) || nextVertex == startingVertex || currentCost + jumpCost + maxBound >= _bestKnownCost)
                 continue;
 
             currentPath[currentLevel] = nextVertex;
             visitedVertices.Add(nextVertex);
             
-            GoNextTreeLevel(currentCost + jumpCost, currentLevel + 1, currentPath, visitedVertices);
+            GoNextTreeLevel(startingVertex,currentCost + jumpCost, currentLevel + 1, currentPath, visitedVertices);
             
             //Wyczysz zbior odwiedzonych wierzholkow
             visitedVertices.Clear();
