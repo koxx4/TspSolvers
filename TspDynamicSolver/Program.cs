@@ -60,13 +60,28 @@ internal static class Program
                     shouldSaveResult = false;
                 }
             }
+
+            if (shouldSaveResult)
+            {
+                var times = solutions.Select(solution => solution.ExecutionTime.TotalMilliseconds).ToList();
+                var bytes = solutions.Select(solution => solution.BytesUsed).ToList();
                 
-            if(shouldSaveResult)
+                long bytesAverage = (long) Math.Round(bytes.Average(), 0, MidpointRounding.AwayFromZero);
+                int average = (int) Math.Round(times.Average(), 0, MidpointRounding.AwayFromZero);
+                
                 TspSolutionToFileExporter.WriteToFullCv(
                     $"Solutions/{configurationLine.FileName.Replace(".txt", "").Replace(".tsp", "")}_result.csv",
                     configurationLine.FileName,
                     solutions[0],
-                    solutions.Select(solution => solution.ExecutionTime.TotalMilliseconds).ToList());
+                    times.ToList(),
+                    bytesAverage);
+                
+                List<List<long>> result = new (1);
+                result.Add(new List<long>() {matrixData.NumberOfVertices, average, bytesAverage});
+
+                TspSolutionToFileExporter.WriteToScientificGraphWithMemoryCv("Solutions/solutions_data.csv", result);
+            }
+
         }
 
         return 0;

@@ -71,7 +71,7 @@ namespace TspUtils
                 {
                     "FULL_MATRIX" => ParseFullMatrix(edgeWeightSectionDataLines, numberOfVertices),
                     "LOWER_DIAG_ROW" => ParseLowerDiagRow(edgeWeightSectionDataLines, numberOfVertices),
-                    "UPPER_DIAG_ROW" => ParseUpperRow(edgeWeightSectionDataLines, numberOfVertices),
+                    //"UPPER_DIAG_ROW" => ParseUpperRow(edgeWeightSectionDataLines, numberOfVertices),
                     "UPPER_ROW" => ParseUpperRow(edgeWeightSectionDataLines, numberOfVertices),
                     _ => new List<List<int>> { new() }
                 };
@@ -201,7 +201,7 @@ namespace TspUtils
         {
             int line = 0;
 
-            int[,] list = new int[numberOfVertices, numberOfVertices];
+            int[,] matrix = new int[numberOfVertices, numberOfVertices];
 
             int value_iterator = 0;
             int[] values = fileLines
@@ -217,26 +217,40 @@ namespace TspUtils
             {
                 for (int j = 0; j <= line; j++)
                 {
-                    list[i, j] = values[value_iterator];
+                    matrix[i, j] = values[value_iterator];
                     value_iterator++;
                 }
 
                 for (int j = line + 1; j < numberOfVertices; j++)
                 {
-                    list[line, j] = -1;
+                    matrix[line, j] = -1;
                 }
                 
                 line++;
             }
+            
+            //Symmetric values rewrite
+            
+            //Rows
+            for (int i = 0; i < numberOfVertices; i++)
+            {
+                //Columns
+                for (int j = i; j < numberOfVertices; j++)
+                {
+                    if (i == j) continue;
 
-            return To2DList(list);
+                    matrix[i, j] = matrix[j, i];
+                }
+            }
+
+            return To2DList(matrix);
         }
 
         private static List<List<int>> ParseUpperRow(string[] fileLines, int numberOfVertices)
         {
             int line = numberOfVertices - 2;
 
-            int[,] list = new int[numberOfVertices, numberOfVertices];
+            int[,] matrix = new int[numberOfVertices, numberOfVertices];
             
             int value_iterator = 0;
             int[] values = fileLines
@@ -252,19 +266,31 @@ namespace TspUtils
             {
                 for (int j = 0; j <= line; j++)
                 {
-                    list[i, j] = values[value_iterator];
+                    matrix[i, j] = values[value_iterator];
                     value_iterator++;
                 }
                 
                 for (int j = numberOfVertices - 1; j > line; j--)
                 {
-                    list[i, j] = -1;
+                    matrix[i, j] = -1;
                 }
                 
                 line--;
             }
+            
+            //Symmetric values rewrite
+            
+            //Rows
+            for (int i = 1; i < numberOfVertices; i++)
+            {
+                //Columns
+                for (int j = numberOfVertices - 1; j > numberOfVertices - 1 - i ; j--)
+                {
+                    matrix[i, j] = matrix[numberOfVertices - 1 - j, numberOfVertices - 1 - i];
+                }
+            }
 
-            return To2DList(list);
+            return To2DList(matrix);
         }
 
         private static List<List<int>> To2DList(int[,] ints)

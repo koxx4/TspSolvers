@@ -60,7 +60,7 @@ namespace TspBnbSolver
                 if (shouldSaveResult)
                 {
                     var times = solutions.Select(solution => solution.ExecutionTime.TotalMilliseconds).ToList();
-                    
+
                     TspSolutionToFileExporter.WriteToFullCv(
                         $"Solutions/{configurationLine.FileName.Replace(".txt", "").Replace(".tsp", "")}_result.csv",
                         configurationLine.FileName,
