@@ -32,7 +32,7 @@ internal class ConfigurationData
             string[] fileLines = File.ReadAllLines(filename);
 
             List<ConfigurationLine> configurationLines = fileLines
-                    .Where(IsComment)
+                    .Where(IsNotComment)
                     .Where(line => !string.IsNullOrWhiteSpace(line))
                     .Select(ParseConfigurationLine)
                     .ToList();
@@ -70,8 +70,8 @@ internal class ConfigurationData
         return new ConfigurationLine(fileName, algorithmPassCount, optimalWeight, optimalCycle);
     }
     
-    static bool IsComment(string configurationLine)
+    static bool IsNotComment(string configurationLine)
     {
-        return configurationLine.TrimStart().StartsWith('#');
+        return !configurationLine.TrimStart().StartsWith('#');
     }
 }

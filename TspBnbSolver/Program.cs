@@ -19,6 +19,8 @@ namespace TspBnbSolver
             ConfigurationData? configurationData = ConfigurationData
                 .LoadFromFile("Data/settings.ini");
 
+            Directory.CreateDirectory("Solutions");
+
             if (configurationData == null)
                 return 1;
             
