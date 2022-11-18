@@ -38,9 +38,9 @@ public class DynamicSolver
 
         stopwatch.Stop();
 
-        long bytesUsed = sizeof(int) * _memo.GetLength(0) * _memo.GetLength(1)
+        long bytesUsed = (sizeof(int) * _memo.GetLength(0) * _memo.GetLength(1)
                          + Buffer.ByteLength(_matrix)
-                         + sizeof(int);
+                         + sizeof(int));
 
         return new(minCost, minPath.ToList(), stopwatch.Elapsed, bytesUsed);
     }

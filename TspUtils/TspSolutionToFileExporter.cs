@@ -10,7 +10,7 @@ public static class TspSolutionToFileExporter
 
         var avg = Math.Round(timeMeasurments.Average(), 2, MidpointRounding.AwayFromZero);
 
-        string mem = memory < 0 ? "" : $" {Convert.ToString(memory)} ";
+        string mem = memory < 0 ? " " : $" {Convert.ToString( (ulong) memory)} ";
 
         tw.Write($"{oldFile}{mem}{avg} {tspSolution}\n");
 
@@ -50,7 +50,7 @@ public static class TspSolutionToFileExporter
         
         foreach (var result in results)
         {
-            textWriter.WriteLine($"{result[0]},{result[1]},{result[2]}");
+            textWriter.WriteLine($"{result[0]},{result[1]},{(ulong)result[2]}");
         }
 
         textWriter.Flush();

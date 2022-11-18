@@ -64,20 +64,19 @@ internal static class Program
             if (shouldSaveResult)
             {
                 var times = solutions.Select(solution => solution.ExecutionTime.TotalMilliseconds).ToList();
-                var bytes = solutions.Select(solution => solution.BytesUsed).ToList();
+                var bytesUsed = solutions.Select(solution => solution.BytesUsed).First();
                 
-                long bytesAverage = (long) Math.Round(bytes.Average(), 0, MidpointRounding.AwayFromZero);
                 int average = (int) Math.Round(times.Average(), 0, MidpointRounding.AwayFromZero);
                 
                 TspSolutionToFileExporter.WriteToFullCv(
                     $"Solutions/{configurationLine.FileName.Replace(".txt", "").Replace(".tsp", "")}_result.csv",
                     configurationLine.FileName,
-                    solutions[0],
+                    solutions.First(),
                     times.ToList(),
-                    bytesAverage);
+                    bytesUsed);
                 
                 List<List<long>> result = new (1);
-                result.Add(new List<long>() {matrixData.NumberOfVertices, average, bytesAverage});
+                result.Add(new List<long>() {matrixData.NumberOfVertices, average, bytesUsed});
 
                 TspSolutionToFileExporter.WriteToScientificGraphWithMemoryCv("Solutions/solutions_data.csv", result);
             }

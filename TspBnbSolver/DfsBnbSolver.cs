@@ -1,5 +1,4 @@
 ﻿using System.Diagnostics;
-using System.Runtime.InteropServices;
 using TspUtils;
 
 namespace TspBnbSolver;
@@ -46,10 +45,10 @@ public class DfsBnbSolver
         _stopwatch.Stop();
 
         return new TspSolution(_bestKnownCost, _bestKnownPath.ToList(), _stopwatch.Elapsed, 
-            Buffer.ByteLength(_matrix) 
+             Buffer.ByteLength(_matrix) 
             + Buffer.ByteLength(_accumulatedWeightsCosts)
             + Buffer.ByteLength(_bestKnownPath)
-            + Buffer.ByteLength(currentPath) );
+            + Buffer.ByteLength(currentPath));
     }
 
     private void GoNextTreeLevel(int startingVertex, int currentCost, int currentLevel, int[] currentPath, HashSet<int> visitedVertices)
