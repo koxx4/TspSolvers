@@ -1,0 +1,4 @@
+pla7397.txt filter=lfs diff=lfs merge=lfs -text
+TspSimulatedAnnealingSolver/Data/pla7397.txt filter=lfs diff=lfs merge=lfs -text
+TspAcSolver/Data/pla7397.txt filter=lfs diff=lfs merge=lfs -text
+TspAntColony/Data/pla7397.txt filter=lfs diff=lfs merge=lfs -text
