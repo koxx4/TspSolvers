@@ -11,6 +11,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TspUtils", "TspUtils\TspUti
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TspDynamicSolver", "TspDynamicSolver\TspDynamicSolver.csproj", "{83748030-0A87-4555-9DC2-BC6FE2FC2AFA}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TspSimulatedAnnealingSolver", "TspSimulatedAnnealingSolver\TspSimulatedAnnealingSolver.csproj", "{5094F15E-7486-450A-AB88-5C459B727F25}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TspAntColony", "TspAntColony\TspAntColony.csproj", "{93F6D369-8450-430E-BB9F-F158E87AEAE5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +37,14 @@ Global
 		{83748030-0A87-4555-9DC2-BC6FE2FC2AFA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{83748030-0A87-4555-9DC2-BC6FE2FC2AFA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{83748030-0A87-4555-9DC2-BC6FE2FC2AFA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5094F15E-7486-450A-AB88-5C459B727F25}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5094F15E-7486-450A-AB88-5C459B727F25}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5094F15E-7486-450A-AB88-5C459B727F25}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5094F15E-7486-450A-AB88-5C459B727F25}.Release|Any CPU.Build.0 = Release|Any CPU
+		{93F6D369-8450-430E-BB9F-F158E87AEAE5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{93F6D369-8450-430E-BB9F-F158E87AEAE5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{93F6D369-8450-430E-BB9F-F158E87AEAE5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{93F6D369-8450-430E-BB9F-F158E87AEAE5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

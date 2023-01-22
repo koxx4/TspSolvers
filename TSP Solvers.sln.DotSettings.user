@@ -3,5 +3,7 @@
   &lt;Assembly Path="C:\Users\Peter\.nuget\packages\mathnet.numerics\5.0.0\lib\net6.0\MathNet.Numerics.dll" /&gt;&#xD;
   &lt;Assembly Path="C:\Users\Peter\.nuget\packages\kaos.combinatorics\5.0.0\lib\netstandard1.0\KaosCombinatorics.dll" /&gt;&#xD;
 &lt;/AssemblyExplorer&gt;</s:String>
+	<s:Boolean x:Key="/Default/UnloadedProject/UnloadedProjects/=5094f15e_002D7486_002D450a_002Dab88_002D5c459b727f25_0023TspSimulatedAnnealingSolver/@EntryIndexedValue">True</s:Boolean>
+	
 	
 	</wpf:ResourceDictionary>

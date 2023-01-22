@@ -20,15 +20,13 @@ public abstract class ConfigurationData<T> where T : ConfigurationLine
 {
     public List<T> ConfigurationLines { get; }
 
-    private ConfigurationData(List<T> configurationLines)
+    protected ConfigurationData(List<T> configurationLines)
     {
         ConfigurationLines = configurationLines;
     }
 
-    protected abstract T ParseConfigurationLine(string line);
-
-    protected bool IsNotComment(string configurationLine)
+    private ConfigurationData()
     {
-        return !configurationLine.TrimStart().StartsWith('#');
+        ConfigurationLines = new List<T>();
     }
 }

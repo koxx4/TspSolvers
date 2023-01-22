@@ -1,6 +1,4 @@
-﻿using System.Diagnostics;
-
-namespace TspUtils;
+﻿namespace TspUtils;
 
 public class TspSolution
 {
@@ -32,6 +30,6 @@ public class TspSolution
 
     public override string ToString()
     {
-        return $"{MinPathWeight} {string.Join(' ' , MinPath)}";
+        return $"{MinPathWeight},{string.Join('-' , MinPath)}";
     }
 }
